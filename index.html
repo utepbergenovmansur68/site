@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="kk" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Отан-Патриот | Қазақстандық патриотизм порталы</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        kzBlue: {
+                            DEFAULT: '#00AFCA',
+                            dark: '#008ba0',
+                            light: '#e6f7fa',
+                        },
+                        kzGold: {
+                            DEFAULT: '#FEC104',
+                            dark: '#cca102',
+                            light: '#fff9e6',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for beautiful icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Custom styling to guarantee polish -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800&display=swap');
+        
+        /* Custom SVG Kazakh National Ornament Pattern for Light mode */
+        .bg-ornament-light {
+            background-color: #f8fafc;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0 C45 20 60 20 80 40 C60 60 45 60 40 80 C35 60 20 60 0 40 C20 20 35 20 40 0 Z M40 20 C33 33 33 33 20 40 C33 47 33 47 40 60 C47 47 47 47 60 40 C47 33 47 33 40 20 Z' fill='%2300AFCA' fill-opacity='0.04'/%3E%3C/svg%3E");
+            background-attachment: fixed;
+        }
+
+        /* Custom SVG Kazakh National Ornament Pattern for Dark mode */
+        .bg-ornament-dark {
+            background-color: #0f172a;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M40 0 C45 20 60 20 80 40 C60 60 45 60 40 80 C35 60 20 60 0 40 C20 20 35 20 40 0 Z M40 20 C33 33 33 33 20 40 C33 47 33 47 40 60 C47 47 47 47 60 40 C47 33 47 33 40 20 Z' fill='%23FEC104' fill-opacity='0.03'/%3E%3C/svg%3E");
+            background-attachment: fixed;
+        }
+
+        /* Premium Steppe Gradient - Soft Blue, Emerald & Gold Sunrises */
+        .bg-steppe-light {
+            background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 45%, #fef9c3 100%);
+            background-attachment: fixed;
+        }
+        .bg-steppe-dark {
+            background: linear-gradient(135deg, #0f172a 0%, #064e3b 50%, #1e1b4b 100%);
+            background-attachment: fixed;
+        }
+
+        /* Night Sky Space Theme background */
+        .bg-night-light {
+            background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
+            background-attachment: fixed;
+        }
+        .bg-night-dark {
+            background: radial-gradient(circle at center, #1e1b4b 0%, #030712 100%);
+            background-attachment: fixed;
+        }
+
+        /* Classic soft background */
+        .bg-classic-light {
+            background-color: #f1f5f9;
+        }
+        .bg-classic-dark {
+            background-color: #0f172a;
+        }
+
+        /* Spinning Shanyrak subtle watermark */
+        .shanyrak-watermark {
+            pointer-events: none;
+            opacity: 0.04;
+            transform-origin: center;
+            animation: spinShanyrak 120s linear infinite;
+        }
+
+        @keyframes spinShanyrak {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .card-shanyrak {
+            position: relative;
+            overflow: hidden;
+        }
+        .card-shanyrak::before {
+            content: "⚜️";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 3rem;
+            opacity: 0.08;
+            transform: rotate(15deg);
+        }
+    </style>
+</head>
+<body id="main-body" class="bg-ornament-light text-gray-800 dark:bg-ornament-dark dark:text-gray-100 font-sans transition-colors duration-300">
+
+<!-- FLOATING BACKGROUND CUSTOMIZER BUTTON & MENU -->
+<div class="fixed bottom-6 left-6 z-50">
+    <button onclick="toggleBgCustomizer()" class="w-14 h-14 bg-kzBlue dark:bg-kzGold text-white dark:text-gray-950 rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all" title="Фонды өзгерту">
+        <i class="fa-solid fa-palette text-xl"></i>
+    </button>
+    <div id="bg-customizer-menu" class="hidden absolute bottom-16 left-0 w-72 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md p-5 rounded-2xl shadow-2xl border border-kzBlue/20 dark:border-kzGold/20 space-y-4">
+        <div class="flex justify-between items-center border-b border-gray-100 dark:border-gray-800 pb-2">
+            <h4 class="font-bold text-xs uppercase tracking-wide text-kzBlue-dark dark:text-kzGold"><i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Дизайн фонын баптау</h4>
+            <button onclick="toggleBgCustomizer()" class="text-gray-400 hover:text-red-500 text-sm"><i class="fa-solid fa-times"></i></button>
+        </div>
+        
+        <!-- Style selection grid -->
+        <div class="space-y-2">
+            <span class="text-[10px] font-bold text-gray-400 uppercase">Стиль таңдау</span>
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="changeBackgroundStyle('ornament')" class="p-2.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-kzBlue dark:hover:border-kzGold text-center text-xs transition bg-gray-50 dark:bg-gray-800">
+                    <span class="block text-lg">⚜️</span> Көк Ел
+                </button>
+                <button onclick="changeBackgroundStyle('steppe')" class="p-2.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-kzBlue dark:hover:border-kzGold text-center text-xs transition bg-gradient-to-r from-blue-100 to-amber-100 dark:from-blue-950 dark:to-amber-950">
+                    <span class="block text-lg">🌅</span> Ұлы Дала
+                </button>
+                <button onclick="changeBackgroundStyle('night')" class="p-2.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-kzBlue dark:hover:border-kzGold text-center text-xs transition bg-slate-200 dark:bg-indigo-950">
+                    <span class="block text-lg">🌌</span> Түнгі Аспан
+                </button>
+                <button onclick="changeBackgroundStyle('classic')" class="p-2.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-kzBlue dark:hover:border-kzGold text-center text-xs transition bg-white dark:bg-slate-900">
+                    <span class="block text-lg">⚪</span> Классикалық
+                </button>
+            </div>
+        </div>
+
+        <!-- Opacity Slider for Ornament Background -->
+        <div class="space-y-1.5" id="opacity-slider-container">
+            <div class="flex justify-between text-[10px] font-bold text-gray-400 uppercase">
+                <span>Ою-өрнек көрінісі</span>
+                <span id="opacity-val">4%</span>
+            </div>
+            <input type="range" id="ornament-opacity" min="1" max="15" value="4" oninput="adjustOrnamentOpacity(this.value)" class="w-full accent-kzBlue dark:accent-kzGold">
+        </div>
+
+        <p class="text-[10px] text-gray-400 italic">Сайт фонының стилін өзіңізге ыңғайлы етіп реттеп, оқу деңгейін арттырыңыз!</p>
+    </div>
+</div>
+
+<!-- HEADER / NAVIGATION -->
+<header class="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b border-kzBlue/20 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 rounded-full bg-kzBlue flex items-center justify-center border-2 border-kzGold text-white shadow-md">
+                    <span class="text-2xl font-bold">⚜️</span>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-wider text-kzBlue-dark dark:text-kzBlue">ОТАН-ПАТРИОТ</span>
+                    <span class="block text-xs text-gray-500 dark:text-gray-400">Білім беру порталы</span>
+                </div>
+            </div>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden lg:flex space-x-4 xl:space-x-6 text-sm font-semibold">
+                <a href="#home" class="hover:text-kzBlue dark:hover:text-kzGold transition duration-200">Басты бет</a>
+                <a href="#about" class="hover:text-kzBlue dark:hover:text-kzGold transition duration-200">Патриотизм</a>
+                <a href="#resources" class="hover:text-kzBlue dark:hover:text-kzGold transition duration-200">Ресурстар</a>
+                <a href="#interactive" class="hover:text-kzBlue dark:hover:text-kzGold transition duration-200">Тапсырмалар</a>
+                <a href="#learningapps" class="hover:text-kzBlue dark:hover:text-kzGold transition duration-200">LearningApps</a>
+                <a href="#pride" class="hover:text-kzBlue dark:hover:text-kzGold transition duration-200">Мақтаныштар</a>
+                <a href="#gallery" class="hover:text-kzBlue dark:hover:text-kzGold transition duration-200">Галерея</a>
+                <a href="#teachers" class="hover:text-kzBlue dark:hover:text-kzGold transition duration-200">Мұғалімге</a>
+                <a href="#news" class="hover:text-kzBlue dark:hover:text-kzGold transition duration-200">Жаңалықтар</a>
+                <a href="#feedback" class="hover:text-kzBlue dark:hover:text-kzGold transition duration-200">Кері байланыс</a>
+            </nav>
+
+            <!-- Utility and Mobile Menu Button -->
+            <div class="flex items-center space-x-3">
+                <!-- Search bar toggle -->
+                <div class="relative hidden sm:block">
+                    <input id="global-search" type="text" placeholder="Іздеу..." class="w-40 md:w-48 lg:w-56 px-4 py-2 text-xs rounded-full border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 focus:outline-none focus:border-kzBlue dark:focus:border-kzGold transition-all">
+                    <button onclick="performSearch()" class="absolute right-3 top-2.5 text-gray-500 dark:text-gray-400">
+                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Theme Toggle Button -->
+                <button onclick="toggleDarkMode()" class="p-2.5 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 transition" title="Қараңғы/жарық режим">
+                    <i id="theme-icon" class="fa-solid fa-moon"></i>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-md text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">
+                    <i id="menu-icon" class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 px-4 pt-2 pb-6 space-y-2 text-base font-semibold shadow-inner">
+        <a href="#home" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded hover:bg-kzBlue/10 hover:text-kzBlue transition">Басты бет</a>
+        <a href="#about" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded hover:bg-kzBlue/10 hover:text-kzBlue transition">Патриотизм туралы</a>
+        <a href="#resources" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded hover:bg-kzBlue/10 hover:text-kzBlue transition">Оқу ресурстары</a>
+        <a href="#interactive" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded hover:bg-kzBlue/10 hover:text-kzBlue transition">Интерактивті тапсырмалар</a>
+        <a href="#learningapps" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded hover:bg-kzBlue/10 hover:text-kzBlue transition">LearningApps</a>
+        <a href="#pride" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded hover:bg-kzBlue/10 hover:text-kzBlue transition">Қазақстан мақтаныштары</a>
+        <a href="#gallery" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded hover:bg-kzBlue/10 hover:text-kzBlue transition">Галерея</a>
+        <a href="#teachers" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded hover:bg-kzBlue/10 hover:text-kzBlue transition">Мұғалімге көмек</a>
+        <a href="#news" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded hover:bg-kzBlue/10 hover:text-kzBlue transition">Жаңалықтар</a>
+        <a href="#feedback" onclick="toggleMobileMenu()" class="block py-2 px-3 rounded hover:bg-kzBlue/10 hover:text-kzBlue transition">Кері байланыс</a>
+        <div class="pt-2">
+            <input id="mobile-search" type="text" placeholder="Сайттан іздеу..." class="w-full px-4 py-2 text-sm rounded border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+            <button onclick="performSearchMobile()" class="mt-2 w-full bg-kzBlue text-white py-2 rounded text-sm hover:bg-kzBlue-dark transition">Іздеу</button>
+        </div>
+    </div>
+</header>
+
+<!-- Alert Notification Box -->
+<div id="notification-box" class="fixed bottom-5 right-5 z-50 hidden bg-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center space-x-3 transition-transform duration-300">
+    <i class="fa-solid fa-circle-check text-xl"></i>
+    <span id="notification-text" class="font-medium text-sm">Тапсырма сәтті орындалды!</span>
+</div>
+
+<!-- MAIN HERO / BANNER SECTION -->
+<section id="home" class="relative overflow-hidden bg-gradient-to-r from-kzBlue/90 to-blue-900 text-white py-16 lg:py-24">
+    <!-- Spinning Shanyrak subtle background element -->
+    <div class="absolute inset-y-0 right-0 opacity-10 pointer-events-none flex items-center justify-center">
+        <svg class="w-[450px] h-[450px] shanyrak-watermark" viewBox="0 0 100 100" fill="none" stroke="#FEC104" stroke-width="1.5">
+            <circle cx="50" cy="50" r="45" />
+            <circle cx="50" cy="50" r="15" />
+            <line x1="50" y1="5" x2="50" y2="95" />
+            <line x1="5" y1="50" x2="95" y2="50" />
+            <path d="M18 18 L82 82 M18 82 L82 18" />
+        </svg>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-7 space-y-6">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-kzGold text-gray-950 uppercase tracking-widest animate-pulse">
+                    ⚜️ Отан отбасынан басталады
+                </span>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none text-white">
+                    Қазақстандық <span class="text-kzGold">Патриотизм</span> Порталы
+                </h1>
+                <p class="text-base sm:text-lg text-gray-200 font-light max-w-2xl">
+                    Бұл цифрлық білім беру ортасы – мектеп оқушылары, мұғалімдер мен ата-аналарға арналған. Біздің мақсатымыз – жас ұрпақтың бойында ұлттық құндылықтарды, отансүйгіштік сезімді және азаматтық жауапкершілікті қалыптастыру.
+                </p>
+                
+                <!-- Quick stats -->
+                <div class="grid grid-cols-3 gap-4 pt-4 border-t border-white/20">
+                    <div class="text-center p-3 rounded bg-white/5 backdrop-blur-sm">
+                        <div id="stat-readers" class="text-2xl sm:text-3xl font-bold text-kzGold">15,400+</div>
+                        <div class="text-xs text-gray-300">Қолданушылар</div>
+                    </div>
+                    <div class="text-center p-3 rounded bg-white/5 backdrop-blur-sm">
+                        <div id="stat-resources" class="text-2xl sm:text-3xl font-bold text-kzGold">350+</div>
+                        <div class="text-xs text-gray-300">Оқу құралдары</div>
+                    </div>
+                    <div class="text-center p-3 rounded bg-white/5 backdrop-blur-sm">
+                        <div id="stat-certs" class="text-2xl sm:text-3xl font-bold text-kzGold">2,850+</div>
+                        <div class="text-xs text-gray-300">Сертификаттар</div>
+                    </div>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                    <a href="#interactive" class="px-6 py-3.5 bg-kzGold hover:bg-kzGold-dark text-gray-950 font-bold rounded-xl shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5 text-center">
+                        <i class="fa-solid fa-gamepad mr-2"></i>Тапсырмаларды бастау
+                    </a>
+                    <a href="#teachers" class="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl border border-white/30 hover:border-white/50 text-center transition">
+                        <i class="fa-solid fa-chalkboard-user mr-2"></i>Мұғалімдерге көмек
+                    </a>
+                </div>
+            </div>
+
+            <!-- Video & Motivational Section -->
+            <div class="lg:col-span-5 space-y-6">
+                <!-- Video Block -->
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 bg-gray-950">
+                    <div class="aspect-video relative">
+                        <!-- Simulated YouTube Embed for Kazakhstan Patriotism Video -->
+                        <iframe class="w-full h-full" src="https://www.youtube.com/embed/nU6bV_2nco0" title="Қазақстан Республикасы" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                    </div>
+                    <div class="p-3 bg-gray-900/95 text-center">
+                        <span class="text-xs text-gray-300"><i class="fa-solid fa-circle-play text-kzGold mr-1"></i> Танымдық бейнеролик: Отаным менің - Қазақстан</span>
+                    </div>
+                </div>
+
+                <!-- Quotes Box -->
+                <div class="bg-white/10 backdrop-blur rounded-2xl p-5 border border-white/10 relative">
+                    <i class="fa-solid fa-quote-left text-3xl text-kzGold opacity-40 absolute top-4 left-4"></i>
+                    <div class="pl-8">
+                        <p class="italic text-sm text-gray-100 mb-3" id="quote-text">
+                            «Ел дегенде еміреніп, жұрт дегенде жүгініп қызмет ет.»
+                        </p>
+                        <span class="block text-right text-xs font-bold text-kzGold" id="quote-author">
+                            — Әлихан Бөкейханов
+                        </span>
+                    </div>
+                    <div class="flex justify-end mt-2 space-x-1">
+                        <button onclick="nextQuote()" class="p-1 px-2.5 rounded bg-white/10 hover:bg-white/20 text-xs transition">Келесі дәйексөз <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 2: ABOUT PATRIOTISM -->
+<section id="about" class="py-16 bg-white/40 dark:bg-gray-800/40 backdrop-blur-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-kzBlue dark:text-kzGold font-bold tracking-widest uppercase text-xs">Ұлы құндылықтар</span>
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mt-1">Қазақстандық патриотизм дегеніміз не?</h2>
+            <div class="w-24 h-1 bg-kzGold mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Definition -->
+            <div class="p-6 bg-white/90 dark:bg-gray-800 rounded-2xl border-t-4 border-kzBlue card-shanyrak shadow-md hover:shadow-xl transition-all">
+                <div class="w-12 h-12 bg-kzBlue/10 rounded-lg flex items-center justify-center text-kzBlue text-2xl mb-4">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Ұғым анықтамасы</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300">
+                    Патриотизм — өз Отанына деген сүйіспеншілік, оның мүддесін қорғау және халқына, тарихына, мәдениетіне деген шексіз берілгендік.
+                </p>
+            </div>
+
+            <!-- Specifics of Kazakh Patriotism -->
+            <div class="p-6 bg-white/90 dark:bg-gray-800 rounded-2xl border-t-4 border-kzGold card-shanyrak shadow-md hover:shadow-xl transition-all">
+                <div class="w-12 h-12 bg-kzGold/10 rounded-lg flex items-center justify-center text-kzGold text-2xl mb-4">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Ерекшеліктері</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300">
+                    Көпұлтты қоғамның бірлігі, бейбітшілік пен келісімді сақтау, ана тіліне құрмет және ата-баба аманатына адалдық.
+                </p>
+            </div>
+
+            <!-- National Values -->
+            <div class="p-6 bg-white/90 dark:bg-gray-800 rounded-2xl border-t-4 border-kzBlue card-shanyrak shadow-md hover:shadow-xl transition-all">
+                <div class="w-12 h-12 bg-kzBlue/10 rounded-lg flex items-center justify-center text-kzBlue text-2xl mb-4">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Азаматтық жауапкершілік</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300">
+                    Заңдарды сақтау, қоршаған ортаны қорғау, мемлекет дамуына өз үлесін қосу және азаматтық белсенділік таныту.
+                </p>
+            </div>
+
+            <!-- Serving the Country -->
+            <div class="p-6 bg-white/90 dark:bg-gray-800 rounded-2xl border-t-4 border-kzGold card-shanyrak shadow-md hover:shadow-xl transition-all">
+                <div class="w-12 h-12 bg-kzGold/10 rounded-lg flex items-center justify-center text-kzGold text-2xl mb-4">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Елге қызмет ету</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300">
+                    Отанды қорғау — әр азаматтың қасиетті борышы. Адал еңбекпен елдің экономикалық және әлеуметтік деңгейін арттыру.
+                </p>
+            </div>
+        </div>
+
+        <!-- Extra dynamic interactive container: Values interactive card list -->
+        <div class="mt-12 p-8 bg-kzBlue/5 dark:bg-gray-700/30 rounded-3xl border border-kzBlue/10">
+            <h3 class="text-xl font-bold text-center mb-6 text-gray-900 dark:text-white">Басты құндылықтар концепциясы</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-5 bg-white dark:bg-gray-800 rounded-xl shadow-sm text-center">
+                    <span class="text-3xl block mb-2">🌍</span>
+                    <h4 class="font-bold mb-1">Отан тұтастығы</h4>
+                    <p class="text-xs text-gray-500">Жерімізді қорғау, сақтау және шекара мызғымастығы.</p>
+                </div>
+                <div class="p-5 bg-white dark:bg-gray-800 rounded-xl shadow-sm text-center">
+                    <span class="text-3xl block mb-2">🗣️</span>
+                    <h4 class="font-bold mb-1">Мемлекеттік тіл</h4>
+                    <p class="text-xs text-gray-500">Ана тіліміз — ұлттық болмысымыздың негізі мен тірегі.</p>
+                </div>
+                <div class="p-5 bg-white dark:bg-gray-800 rounded-xl shadow-sm text-center">
+                    <span class="text-3xl block mb-2">🕊️</span>
+                    <h4 class="font-bold mb-1">Мәңгілік Ел идеясы</h4>
+                    <p class="text-xs text-gray-500">Тәуелсіздікті мәңгі ету, бейбіт қоғамды қалыптастыру.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 3: EDUCATIONAL RESOURCES -->
+<section id="resources" class="py-16 bg-white/20 dark:bg-gray-900/40 backdrop-blur-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div>
+                <span class="text-kzBlue dark:text-kzGold font-bold tracking-widest uppercase text-xs">Мектеп құралдары</span>
+                <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mt-1">Оқу-әдістемелік ресурстар</h2>
+                <div class="w-24 h-1 bg-kzGold mt-2 rounded-full"></div>
+            </div>
+            <!-- Filter buttons -->
+            <div class="flex flex-wrap gap-2 mt-4 md:mt-0">
+                <button onclick="filterResources('all')" class="resource-tab-btn active px-4 py-2 text-xs font-bold rounded-lg bg-kzBlue text-white transition">Барлығы</button>
+                <button onclick="filterResources('pres')" class="resource-tab-btn px-4 py-2 text-xs font-bold rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 transition">Презентациялар</button>
+                <button onclick="filterResources('guides')" class="resource-tab-btn px-4 py-2 text-xs font-bold rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 transition">Әдістемелер</button>
+                <button onclick="filterResources('books')" class="resource-tab-btn px-4 py-2 text-xs font-bold rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 transition">Эл. кітаптар</button>
+                <button onclick="filterResources('info')" class="resource-tab-btn px-4 py-2 text-xs font-bold rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 transition">Инфографикалар</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="resources-grid">
+            <!-- Resource Card 1: Presentation -->
+            <div class="resource-card bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden transform hover:-translate-y-1 transition duration-300" data-category="pres">
+                <div class="p-6">
+                    <span class="px-2.5 py-1 text-[10px] font-bold uppercase rounded-md bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300">Презентация</span>
+                    <h3 class="text-lg font-bold mt-3 mb-2 text-gray-900 dark:text-white">Мемлекеттік рәміздердің тарихы</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Рәміздердің шығу тарихы, авторлары мен олардың сипаттамасы туралы презентациялық жинақ.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                        <span class="text-xs text-gray-400"><i class="fa-regular fa-file-powerpoint mr-1"></i> PowerPoint (12.4 MB)</span>
+                        <button onclick="simulateDownload('Мемлекеттік рәміздер презентациясы')" class="text-kzBlue hover:text-kzBlue-dark dark:text-kzGold font-semibold text-xs flex items-center">
+                            <i class="fa-solid fa-download mr-1"></i> Жүктеу
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resource Card 2: Methodological Guide -->
+            <div class="resource-card bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden transform hover:-translate-y-1 transition duration-300" data-category="guides">
+                <div class="p-6">
+                    <span class="px-2.5 py-1 text-[10px] font-bold uppercase rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">Әдістемелік құрал</span>
+                    <h3 class="text-lg font-bold mt-3 mb-2 text-gray-900 dark:text-white">Патриоттық тәрбие әдістемесі</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Мектеп сыныптарында патриоттық тәрбие сағаттарын өткізуге арналған толыққанды әдістемелік нұсқаулық.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                        <span class="text-xs text-gray-400"><i class="fa-regular fa-file-pdf mr-1"></i> PDF (3.2 MB)</span>
+                        <button onclick="simulateDownload('Патриоттық тәрбие әдістемелік құралы')" class="text-kzBlue hover:text-kzBlue-dark dark:text-kzGold font-semibold text-xs flex items-center">
+                            <i class="fa-solid fa-download mr-1"></i> Жүктеу
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resource Card 3: E-book -->
+            <div class="resource-card bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden transform hover:-translate-y-1 transition duration-300" data-category="books">
+                <div class="p-6">
+                    <span class="px-2.5 py-1 text-[10px] font-bold uppercase rounded-md bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300">Электронды кітап</span>
+                    <h3 class="text-lg font-bold mt-3 mb-2 text-gray-900 dark:text-white">Қазақ Елінің Батырлары</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Ұлы Отан соғысының және қазіргі заманның батырлары туралы электронды иллюстрацияланған кітап.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                        <span class="text-xs text-gray-400"><i class="fa-regular fa-bookmark mr-1"></i> EPUB / PDF (18 MB)</span>
+                        <button onclick="simulateDownload('Қазақ Елінің Батырлары электронды кітабы')" class="text-kzBlue hover:text-kzBlue-dark dark:text-kzGold font-semibold text-xs flex items-center">
+                            <i class="fa-solid fa-download mr-1"></i> Жүктеу
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resource Card 4: Infographics -->
+            <div class="resource-card bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden transform hover:-translate-y-1 transition duration-300" data-category="info">
+                <div class="p-6">
+                    <span class="px-2.5 py-1 text-[10px] font-bold uppercase rounded-md bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300">Инфографика</span>
+                    <h3 class="text-lg font-bold mt-3 mb-2 text-gray-900 dark:text-white">Қазақстанның жеті кереметі</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Еліміздің ең маңызды табиғи және мәдени ескерткіштерінің жоғары сапалы инфографикалық картасы.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                        <span class="text-xs text-gray-400"><i class="fa-regular fa-image mr-1"></i> PNG / High-Res (8.7 MB)</span>
+                        <button onclick="simulateDownload('Қазақстанның жеті кереметі инфографикасы')" class="text-kzBlue hover:text-kzBlue-dark dark:text-kzGold font-semibold text-xs flex items-center">
+                            <i class="fa-solid fa-download mr-1"></i> Жүктеу
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resource Card 5: Presentation 2 -->
+            <div class="resource-card bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden transform hover:-translate-y-1 transition duration-300" data-category="pres">
+                <div class="p-6">
+                    <span class="px-2.5 py-1 text-[10px] font-bold uppercase rounded-md bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300">Презентация</span>
+                    <h3 class="text-lg font-bold mt-3 mb-2 text-gray-900 dark:text-white">Ұлттық валюта – Теңге тарихы</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Тәуелсіздіктің басты тіректерінің бірі — теңгенің енгізілу процесі мен оның банкноттық өзгерістері.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                        <span class="text-xs text-gray-400"><i class="fa-regular fa-file-powerpoint mr-1"></i> PPTX (9.1 MB)</span>
+                        <button onclick="simulateDownload('Теңге тарихы презентациясы')" class="text-kzBlue hover:text-kzBlue-dark dark:text-kzGold font-semibold text-xs flex items-center">
+                            <i class="fa-solid fa-download mr-1"></i> Жүктеу
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resource Card 6: Guide 2 -->
+            <div class="resource-card bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 overflow-hidden transform hover:-translate-y-1 transition duration-300" data-category="guides">
+                <div class="p-6">
+                    <span class="px-2.5 py-1 text-[10px] font-bold uppercase rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">Әдістемелік құрал</span>
+                    <h3 class="text-lg font-bold mt-3 mb-2 text-gray-900 dark:text-white">Мектептегі Отаншылдық клубтары</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Жастарға отаншылдық тәрбие беретін ерікті мектеп ұйымдары мен патриоттық клубтардың жарғылық үлгілері.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
+                        <span class="text-xs text-gray-400"><i class="fa-regular fa-file-pdf mr-1"></i> PDF (2.1 MB)</span>
+                        <button onclick="simulateDownload('Мектептегі Отаншылдық клубтары нұсқаулығы')" class="text-kzBlue hover:text-kzBlue-dark dark:text-kzGold font-semibold text-xs flex items-center">
+                            <i class="fa-solid fa-download mr-1"></i> Жүктеу
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 4: INTERACTIVE ACTIVITIES (QUIZ, MATCHING GAME & QUEST) -->
+<section id="interactive" class="py-16 bg-white/40 dark:bg-gray-800/40 backdrop-blur-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-kzBlue dark:text-kzGold font-bold tracking-widest uppercase text-xs">Танымдық ойындар</span>
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mt-1">Интерактивті ойындар мен тесттер</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Ойындар арқылы Отан тарихын меңгеру. Сұрақтарға дұрыс жауап беріп, арнайы жүктелетін Сертификат алыңыз!</p>
+            <div class="w-24 h-1 bg-kzGold mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <!-- Tab Selector for Mini Games -->
+        <div class="flex justify-center mb-8 border-b border-gray-200 dark:border-gray-700">
+            <button onclick="switchGameTab('quiz-tab')" id="quiz-tab-btn" class="game-tab-btn border-b-2 border-kzBlue text-kzBlue dark:text-kzGold dark:border-kzGold font-bold px-6 py-3 text-sm focus:outline-none">
+                <i class="fa-solid fa-clipboard-question mr-1"></i> Онлайн Тест
+            </button>
+            <button onclick="switchGameTab('match-tab')" id="match-tab-btn" class="game-tab-btn border-b-2 border-transparent text-gray-500 dark:text-gray-400 font-medium px-6 py-3 text-sm hover:text-gray-700 focus:outline-none">
+                <i class="fa-solid fa-shapes mr-1"></i> Сәйкестендіру Ойыны
+            </button>
+            <button onclick="switchGameTab('quest-tab')" id="quest-tab-btn" class="game-tab-btn border-b-2 border-transparent text-gray-500 dark:text-gray-400 font-medium px-6 py-3 text-sm hover:text-gray-700 focus:outline-none">
+                <i class="fa-solid fa-compass mr-1"></i> Патриоттық Квест
+            </button>
+        </div>
+
+        <!-- GAME CONTAINER 1: PATRIOC QUIZ -->
+        <div id="quiz-tab-content" class="game-content-panel block">
+            <div class="max-w-2xl mx-auto bg-white/95 dark:bg-gray-700/95 p-8 rounded-2xl border border-gray-100 dark:border-gray-600 shadow-md">
+                <div id="quiz-intro" class="text-center space-y-4">
+                    <span class="text-4xl">🇰🇿</span>
+                    <h3 class="text-xl font-bold">Отантану интеллектуалды тесті</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Қазақстанның мемлекеттік құрылымы, рәміздері мен географиясы туралы біліміңізді тексеріңіз. 3 сұраққа дұрыс жауап берген оқушыға арнайы Сертификат беріледі.</p>
+                    <button onclick="startQuiz()" class="px-6 py-3 bg-kzBlue dark:bg-kzGold dark:text-gray-950 hover:bg-kzBlue-dark text-white font-bold rounded-xl shadow transition">Тестті бастау</button>
+                </div>
+
+                <div id="quiz-play" class="hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <span id="quiz-progress" class="text-xs font-bold text-kzBlue dark:text-kzGold uppercase">Сұрақ: 1 / 3</span>
+                        <span id="quiz-timer" class="text-xs text-gray-500"><i class="fa-regular fa-clock"></i> Уақыт шектеусіз</span>
+                    </div>
+                    <h4 id="quiz-question" class="text-lg font-bold mb-6 text-gray-900 dark:text-white">Қазақстан Республикасы Тәуелсіздігін қай жылы жариялады?</h4>
+                    <div id="quiz-options" class="space-y-3">
+                        <!-- Options filled by JS -->
+                    </div>
+                </div>
+
+                <div id="quiz-result" class="hidden text-center space-y-6">
+                    <span class="text-5xl">🏆</span>
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Тест аяқталды!</h3>
+                    <p class="text-md">Сіздің нәтижеңіз: <span id="quiz-score" class="font-bold text-kzBlue dark:text-kzGold">3 / 3</span></p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400" id="quiz-feedback-text">Жарайсыз! Сіз барлық сұраққа дұрыс жауап беріп, үздік нәтиже көрсеттіңіз.</p>
+                    
+                    <!-- Certificate Name Input and Generate Container -->
+                    <div class="p-4 bg-white dark:bg-gray-800 rounded-xl border border-dashed border-kzGold">
+                        <label class="block text-xs font-bold uppercase mb-2 text-left">Аты-жөніңізді енгізіңіз (Сертификат үшін):</label>
+                        <input type="text" id="cert-user-name" placeholder="Мысалы: Азаматов Әлішер" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-kzBlue dark:bg-gray-700 mb-3">
+                        <button onclick="generateCertificateFromQuiz()" class="w-full py-3 bg-kzGold hover:bg-kzGold-dark text-gray-900 font-bold rounded-lg shadow transition">
+                            <i class="fa-solid fa-file-signature mr-1"></i> Патриоттық Сертификатты Алу
+                        </button>
+                    </div>
+                    <button onclick="resetQuiz()" class="px-4 py-2 text-xs bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 rounded-lg transition">Қайта бастау</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAME CONTAINER 2: MATCHING GAME -->
+        <div id="match-tab-content" class="game-content-panel hidden">
+            <div class="max-w-4xl mx-auto bg-white/95 dark:bg-gray-700/95 p-8 rounded-2xl border border-gray-100 dark:border-gray-600 shadow-md">
+                <div class="mb-6 text-center">
+                    <h3 class="text-xl font-bold mb-2">Мемлекеттік ұғымдар мен Сәйкестік</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-300">Сол жақтағы ұғымдарды оң жақтағы дұрыс анықтамалармен бірінен соң бірін басып сәйкестендіріңіз.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Concepts Side -->
+                    <div class="space-y-3" id="match-concepts">
+                        <h4 class="text-xs font-bold uppercase text-gray-400 mb-2">Мемлекеттік ұғымдар</h4>
+                        <!-- Dynamic rendering -->
+                    </div>
+
+                    <!-- Definitions Side -->
+                    <div class="space-y-3" id="match-definitions">
+                        <h4 class="text-xs font-bold uppercase text-gray-400 mb-2">Анықтамалары</h4>
+                        <!-- Dynamic rendering -->
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center hidden" id="match-success-panel">
+                    <div class="inline-block p-4 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 rounded-xl">
+                        <span class="text-lg font-bold block">🎉 Жарайсыз! Барлық ұғымдар сәтті сәйкестендірілді.</span>
+                    </div>
+                    <button onclick="resetMatchGame()" class="mt-4 block mx-auto px-6 py-2 text-xs bg-kzBlue text-white rounded-lg hover:bg-kzBlue-dark transition">Қайта жүктеу</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAME CONTAINER 3: PATRIOTIC QUEST -->
+        <div id="quest-tab-content" class="game-content-panel hidden">
+            <div class="max-w-2xl mx-auto bg-white/95 dark:bg-gray-700/95 p-8 rounded-2xl border border-gray-100 dark:border-gray-600 shadow-md text-center">
+                <div id="quest-screen-1" class="quest-screen space-y-6">
+                    <span class="text-5xl">🧭</span>
+                    <h3 class="text-xl font-bold">«Бабалар ізімен» интеллектуалды квесті</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Сіз Сарыарқа даласындағы тарихи жәдігерлерді іздеуші жас зерттеушісіз. Әр таңдауыңыз ел тарихын қаншалықты білетініңізге байланысты нәтиже береді. Саяхатқа шығуға дайынсыз ба?</p>
+                    <button onclick="startQuest(2)" class="px-6 py-3 bg-kzBlue hover:bg-kzBlue-dark text-white font-bold rounded-xl transition">Квестті бастау</button>
+                </div>
+
+                <div id="quest-screen-2" class="quest-screen hidden space-y-6 text-left">
+                    <h4 class="text-lg font-bold border-b pb-2 text-kzBlue">Кезең 1: Алтын адам құпиясы</h4>
+                    <p class="text-sm leading-relaxed">Экспедиция Есік қорғанынан басталды. Сіздің алдыңыздан Алтын адам жәдігері табылды. Зертханаға бағыт алмас бұрын, оның бас киіміндегі басты символды таппасқа болмайды. Бұл басты символ қандай жануар бейнесі?</p>
+                    <div class="space-y-3">
+                        <button onclick="startQuest(3, 'correct')" class="w-full text-left p-3.5 bg-white dark:bg-gray-800 rounded-xl hover:border-kzBlue border border-transparent transition text-sm">🐴 Қанатты тұлпарлар (Арқар бейнелі тұлпар)</button>
+                        <button onclick="startQuest(4, 'wrong')" class="w-full text-left p-3.5 bg-white dark:bg-gray-800 rounded-xl hover:border-red-500 border border-transparent transition text-sm">🦅 Дала қыраны мен көк бөрі</button>
+                    </div>
+                </div>
+
+                <div id="quest-screen-3" class="quest-screen hidden space-y-6 text-left">
+                    <h4 class="text-lg font-bold border-b pb-2 text-emerald-500">Дұрыс! Кезең 2: Ақ Орда бекінісі</h4>
+                    <p class="text-sm leading-relaxed">Қанатты тұлпар таңбасы сақ патшаларының күн құдайына және тектілікке тағзым етуін білдіреді. Келесі жолыңызда сіз Керей мен Жәнібек хандар бірінші хандықтың туын тіккен тарихи мекенге тап болдыңыз. Бұл қай мекен?</p>
+                    <div class="space-y-3">
+                        <button onclick="startQuest(5, 'correct')" class="w-full text-left p-3.5 bg-white dark:bg-gray-800 rounded-xl hover:border-kzBlue border border-transparent transition text-sm">📍 Қозыбасы маңы, Шу алқабы</button>
+                        <button onclick="startQuest(6, 'wrong')" class="w-full text-left p-3.5 bg-white dark:bg-gray-800 rounded-xl hover:border-red-500 border border-transparent transition text-sm">📍 Сарайшық қаласы, Жайық бойы</button>
+                    </div>
+                </div>
+
+                <div id="quest-screen-4" class="quest-screen hidden space-y-6 text-center">
+                    <span class="text-5xl">❌</span>
+                    <h4 class="text-lg font-bold text-red-500">Қате таңдау</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Дала қыраны мен көк бөрі де маңызды рәміздер болғанымен, Есік қорғанынан табылған Алтын адамның бас киімінде дәл қанатты пырақтар орнатылған. Тарихи саяхатыңыз тоқтап қалды.</p>
+                    <button onclick="startQuest(1)" class="px-6 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 rounded-lg text-xs transition">Қайтадан көру</button>
+                </div>
+
+                <div id="quest-screen-5" class="quest-screen hidden space-y-6 text-center">
+                    <span class="text-5xl">🏆 🎉</span>
+                    <h4 class="text-xl font-bold text-emerald-600 dark:text-emerald-400">Ұлы Квест Жеңімпазы!</h4>
+                    <p class="text-sm leading-relaxed">Сіз Шу өзені аңғарындағы Қозыбасы жерін дұрыс анықтадыңыз (1465 жыл). Сіздің отандық тарих пен қасиетті жерлер туралы біліміңіз өте жоғары деңгейде!</p>
+                    <div class="p-4 bg-kzBlue/10 rounded-xl">
+                        <span class="text-xs font-bold uppercase block text-kzBlue mb-1">Сыйлық қолжетімді</span>
+                        <p class="text-xs text-gray-500 dark:text-gray-300">Жеңімпаз ретінде Онлайн Тестке өтіп, өзіңіздің тегіңіз жазылған жеке сертификатты жүктеп алыңыз!</p>
+                    </div>
+                    <button onclick="switchGameTab('quiz-tab')" class="px-6 py-3 bg-kzGold hover:bg-kzGold-dark text-gray-900 font-bold rounded-xl transition">Сертификат алу тестіне бару</button>
+                </div>
+
+                <div id="quest-screen-6" class="quest-screen hidden space-y-6 text-center">
+                    <span class="text-5xl">❌</span>
+                    <h4 class="text-lg font-bold text-red-500">Қате таңдау</h4>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">Сарайшық кейінгі Алтын Орда мен Ноғай Ордасының астанасы болды, алайда алғашқы қазақ хандығының туы Шу алқабындағы Қозыбасы мекенінде желбіреді.</p>
+                    <button onclick="startQuest(3)" class="px-6 py-2 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 rounded-lg text-xs transition">Қайтадан көру</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 5: LEARNINGAPPS EXERCISES & QR INTEGRATION -->
+<section id="learningapps" class="py-16 bg-white/20 dark:bg-gray-900/40 backdrop-blur-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-6 space-y-6">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-kzBlue/10 text-kzBlue-dark dark:text-kzGold">
+                    ⚡ Интерактивті Дайын Модельдер
+                </span>
+                <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white leading-tight">
+                    LearningApps Дайын Тапсырмалар Жинағы
+                </h2>
+                <p class="text-sm text-gray-600 dark:text-gray-300">
+                    Мұғалімдер үшін сабақ барысында немесе үй тапсырмасы ретінде пайдалануға арналған LearningApps.org платформасындағы патриоттық және мемлекеттік рәміздерге байланысты дайын бейімделген жаттығулар.
+                </p>
+                
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-3 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700">
+                        <div class="w-8 h-8 rounded bg-kzGold/20 text-kzGold flex items-center justify-center text-sm font-bold flex-shrink-0">1</div>
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-900 dark:text-white">Қазақстан қалалары Сұрақтары</h4>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Сынып сағаттары мен білім бәйгелеріне арналған кешенді сұрақ-жауап кроссворды.</p>
+                            <a href="https://learningapps.org/view34937670" target="_blank" class="text-xs text-kzBlue dark:text-kzGold hover:underline mt-1 inline-block">LearningApps-тан ашу <i class="fa-solid fa-arrow-up-right-from-square ml-0.5"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start space-x-3 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700">
+                        <div class="w-8 h-8 rounded bg-kzBlue/20 text-kzBlue flex items-center justify-center text-sm font-bold flex-shrink-0">2</div>
+                        <div>
+                            <h4 class="font-bold text-sm text-gray-900 dark:text-white"> Тарихи Тұлғалар</h4>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Тарихи тұлғалардың фотосуреттері мен есімдерін сәйкестендіруге арналған жаттығулар жинағы.</p>
+                            <a href="https://learningapps.org/view30039796" target="_blank" class="text-xs text-kzBlue dark:text-kzGold hover:underline mt-1 inline-block">LearningApps-тан ашу <i class="fa-solid fa-arrow-up-right-from-square ml-0.5"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive QR-Code view widget -->
+            <div class="lg:col-span-6 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 text-center">
+                <span class="text-3xl block mb-2">📱</span>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Ұялы телефоннан жылдам кіру</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mb-6">Оқушыларға бұл жаттығуларды сабақта ұялы телефон арқылы жылдам ашу үшін QR кодты экраннан көрсетіңіз немесе жүктеп алыңыз.</p>
+                
+                <div class="flex justify-center items-center space-x-8">
+                    <div class="p-3 bg-white border rounded-xl shadow-sm">
+                        <!-- QR Code placeholder that works offline and looks nice -->
+                        <img src="https://learningapps.org/qrcode.php?id=p5980juyn24" alt="LearningApps QR" class="w-28 h-28 rounded-md">
+                        <span class="block text-[10px] font-bold mt-2 text-gray-500 uppercase">Жаттығу №1</span>
+                    </div>
+                    <div class="p-3 bg-white border rounded-xl shadow-sm">
+                        <img src="https://learningapps.org/qrcode.php?id=pa9xncq1t23" alt="History QR" class="w-28 h-28 rounded-md">
+                        <span class="block text-[10px] font-bold mt-2 text-gray-500 uppercase">Жаттығу №2</span>
+                    </div>
+                </div>
+                
+                <button onclick="showNotification('Басып шығаруға дайындау үлгісі жүктелді!')" class="mt-6 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-xs font-semibold rounded-lg transition">
+                    <i class="fa-solid fa-print mr-1"></i> QR-Код баспа нұсқасын жүктеу
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 6: PRIDES OF KAZAKHSTAN -->
+<section id="pride" class="py-16 bg-white/40 dark:bg-gray-800/40 backdrop-blur-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-kzBlue dark:text-kzGold font-bold tracking-widest uppercase text-xs">Ел мақтаныштары</span>
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mt-1">Тұлғалар — Патриотизм үлгісі</h2>
+            <div class="w-24 h-1 bg-kzGold mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <!-- Filter tabs for categories of people -->
+        <div class="flex justify-center mb-8 space-x-2">
+            <button onclick="filterPride('all')" class="pride-tab-btn active px-4 py-2 text-xs font-bold rounded-full bg-kzBlue text-white transition">Барлығы</button>
+            <button onclick="filterPride('history')" class="pride-tab-btn px-4 py-2 text-xs font-bold rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 transition">Тарихи тұлғалар</button>
+            <button onclick="filterPride('heroes')" class="pride-tab-btn px-4 py-2 text-xs font-bold rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 transition">Батырлар</button>
+            <button onclick="filterPride('science')" class="pride-tab-btn px-4 py-2 text-xs font-bold rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 transition">Ғалымдар мен Спортшылар</button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="prides-grid">
+            <!-- Person 1: Abai -->
+            <div class="pride-card bg-white/90 dark:bg-gray-700 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-600 shadow-md transition duration-300 transform hover:-translate-y-1" data-cat="history">
+                <img src="https://placehold.co/400x250/004c6d/ffffff?text=Абай+Құнанбайұлы" alt="Абай Құнанбайұлы" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="px-2 py-0.5 text-[9px] font-bold uppercase rounded bg-kzGold/20 text-gray-900 dark:text-white">Тарихи Тұлға / Ақын</span>
+                    <h3 class="text-lg font-bold mt-2 text-gray-900 dark:text-white">Абай Құнанбайұлы</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-300 mt-2 leading-relaxed">Қазақтың бас ақыны, философ, ағартушы. Оның Қара сөздері мен шығармалары — ұлттық патриотизмнің айнымас рухани негізі.</p>
+                <a href= "https://kk.wikipedia.org/wiki/%D0%90%D0%B1%D0%B0%D0%B9_%D2%9A%D2%B1%D0%BD%D0%B0%D0%BD%D0%B1%D0%B0%D0%B9%D2%B1%D0%BB%D1%8B"target="_blank" class="text-xs text-kzBlue dark:text-kzGold hover:underline mt-1 inline-block">Толығырақ<i class="fa-solid fa-arrow-up-right-from-square ml-0.5"></i></a>
+				</div>
+            </div>
+
+            <!-- Person 2: Bauyrzhan Momyshuly -->
+            <div class="pride-card bg-white/90 dark:bg-gray-700 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-600 shadow-md transition duration-300 transform hover:-translate-y-1" data-cat="heroes">
+                <img src="https://placehold.co/400x250/005f73/ffffff?text=Бауыржан+Момышұлы" alt="Бауыржан Момышұлы" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="px-2 py-0.5 text-[9px] font-bold uppercase rounded bg-kzGold/20 text-gray-900 dark:text-white">Батыр / Жазушы</span>
+                    <h3 class="text-lg font-bold mt-2 text-gray-900 dark:text-white">Бауыржан Момышұлы</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-300 mt-2 leading-relaxed">Екінші дүниежүзілік соғыстың қаһарманы, даңқты қолбасшы, жазушы. «Отан үшін отқа түс — күймейсің» деген ұлағатты сөз қалдырған.</p>
+                <a href= "https://kk.wikipedia.org/wiki/%D0%91%D0%B0%D1%83%D1%8B%D1%80%D0%B6%D0%B0%D0%BD_%D0%9C%D0%BE%D0%BC%D1%8B%D1%88%D2%B1%D0%BB%D1%8B"target="_blank" class="text-xs text-kzBlue dark:text-kzGold hover:underline mt-1 inline-block">Толығырақ<i class="fa-solid fa-arrow-up-right-from-square ml-0.5"></i></a>
+				</div>
+            </div>
+
+            <!-- Person 3: Kanysh Satbayev -->
+            <div class="pride-card bg-white/90 dark:bg-gray-700 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-600 shadow-md transition duration-300 transform hover:-translate-y-1" data-cat="science">
+                <img src="https://placehold.co/400x250/0a9396/ffffff?text=Қаныш+Сәтбаев" alt="Қаныш Сәтбаев" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <span class="px-2 py-0.5 text-[9px] font-bold uppercase rounded bg-kzGold/20 text-gray-900 dark:text-white">Ғалым</span>
+                    <h3 class="text-lg font-bold mt-2 text-gray-900 dark:text-white">Қаныш Сәтбаев</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-300 mt-2 leading-relaxed">Қазақ КСР Ғылым академиясының тұңғыш президенті, көрнекті геолог-ғалым. Жезқазған мыс кенін ашып, ел индустриясына жол ашқан.</p>
+                 <a href="https://kk.wikipedia.org/wiki/%D2%9A%D0%B0%D0%BD%D1%8B%D1%88_%D0%98%D0%BC%D0%B0%D0%BD%D1%82%D0%B0%D0%B9%D2%B1%D0%BB%D1%8B_%D0%A1%D3%99%D1%82%D0%B1%D0%B0%D0%B5%D0%B2"target="_blank" class="text-xs text-kzBlue dark:text-kzGold hover:underline mt-1 inline-block">Толығырақ<i class="fa-solid fa-arrow-up-right-from-square ml-0.5"></i></a>
+				</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 7: GALLERY -->
+<section id="gallery" class="py-16 bg-white/20 dark:bg-gray-900/40 backdrop-blur-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-kzBlue dark:text-kzGold font-bold tracking-widest uppercase text-xs">Ұлы дала бейнесі</span>
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mt-1">Отандық Фотогалерея</h2>
+            <div class="w-24 h-1 bg-kzGold mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Gallery Item 1 -->
+            <div class="relative group overflow-hidden rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 cursor-pointer" onclick="openGalleryModal('Мемлекеттік Көк Ту', 'https://emcrk.kz/images/flag.png')">
+                <img src="https://emcrk.kz/images/flag.png" alt="Қазақстан Туы" class="w-full h-64 object-cover transform group-hover:scale-105 transition duration-300">
+                <div class="absolute inset-0 bg-gradient-to-t from-gray-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                    <span class="text-kzGold text-xs font-bold">Мемлекеттік Рәміз</span>
+                    <h4 class="text-white text-base font-bold">Қазақстан Республикасының Көк Туы</h4>
+                </div>
+            </div>
+
+            <!-- Gallery Item 2 -->
+            <div class="relative group overflow-hidden rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 cursor-pointer" onclick="openGalleryModal('Шаңырақ символы', 'https://aikyn.kz/upload/media/entries/2024/04/264930-entry-0_0-1712172728.jpg')">
+                <img src="https://aikyn.kz/upload/media/entries/2024/04/264930-entry-0_0-1712172728.jpg" alt="Шаңырақ" class="w-full h-64 object-cover transform group-hover:scale-105 transition duration-300">
+                <div class="absolute inset-0 bg-gradient-to-t from-gray-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                    <span class="text-kzGold text-xs font-bold">Ұлттық Киелілік</span>
+                    <h4 class="text-white text-base font-bold">Мемлекеттік Елтаңбадағы Шаңырақ</h4>
+                </div>
+            </div>
+
+            <!-- Gallery Item 3 -->
+            <div class="relative group overflow-hidden rounded-2xl shadow-md border border-gray-100 dark:border-gray-700 cursor-pointer" onclick="openGalleryModal('Астана - Бәйтерек', 'https://visitnursultan.kz/upload/iblock/438/i652jm4g4uv6m5qmpcx2rilwkcgdqbfa.jpg')">
+                <img src="https://visitnursultan.kz/upload/iblock/438/i652jm4g4uv6m5qmpcx2rilwkcgdqbfa.jpg" alt="Астана Бәйтерек" class="w-full h-64 object-cover transform group-hover:scale-105 transition duration-300">
+                <div class="absolute inset-0 bg-gradient-to-t from-gray-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                    <span class="text-kzGold text-xs font-bold">Сәулет Өнері</span>
+                    <h4 class="text-white text-base font-bold">Бәйтерек монументі — Тәуелсіздік нышаны</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LIGHTBOX MODAL FOR GALLERY -->
+<div id="gallery-modal" class="fixed inset-0 z-50 bg-black/90 hidden flex items-center justify-center p-4">
+    <button onclick="closeGalleryModal()" class="absolute top-5 right-5 text-white text-3xl hover:text-kzGold"><i class="fa-solid fa-xmark"></i></button>
+    <div class="max-w-4xl w-full text-center space-y-4">
+        <img id="gallery-modal-img" src="" alt="" class="mx-auto max-h-[75vh] object-contain rounded-lg border-2 border-kzGold/30">
+        <h4 id="gallery-modal-title" class="text-xl font-bold text-white">Сурет атауы</h4>
+    </div>
+</div>
+
+<!-- SECTION 8: TEACHER'S ASSISTANCE -->
+<section id="teachers" class="py-16 bg-white/40 dark:bg-gray-800/40 backdrop-blur-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-4 space-y-4">
+                <span class="text-kzBlue dark:text-kzGold font-bold tracking-widest uppercase text-xs">Мұғалімдер бұрышы</span>
+                <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white leading-tight">Мұғалімдерге Көмек көрсету</h2>
+                <div class="w-24 h-1 bg-kzGold rounded-full"></div>
+                <p class="text-sm text-gray-600 dark:text-gray-300">
+                    Тәрбие сағаттары мен сыныптан тыс іс-шараларды заманауи интерактивті деңгейде өткізуге арналған толыққанды дайын құжаттамалық материалдар жинағы.
+                </p>
+                <div class="pt-4">
+                    <span class="block font-bold text-xs uppercase mb-1">Мүмкіндіктер:</span>
+                    <ul class="space-y-2 text-xs text-gray-500 dark:text-gray-400">
+                        <li><i class="fa-solid fa-circle-check text-kzBlue mr-1"></i> Дайын Тәрбие сағаты жоспарлары (KTSP)</li>
+                        <li><i class="fa-solid fa-circle-check text-kzBlue mr-1"></i> Оқушылардан алынатын сауалнама үлгілері</li>
+                        <li><i class="fa-solid fa-circle-check text-kzBlue mr-1"></i> Рефлексия мен бағалау парақшалары</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Material Cards -->
+            <div class="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Card 1 -->
+                <div class="p-6 bg-white dark:bg-gray-700/50 rounded-2xl border border-gray-100 dark:border-gray-700 relative shadow-md">
+                    <span class="absolute top-4 right-4 text-kzBlue dark:text-kzGold text-2xl"><i class="fa-regular fa-file-word"></i></span>
+                    <h4 class="font-bold text-base mb-2 text-gray-900 dark:text-white">Тәрбие сағаты: «Менің Отаным – Қазақстан»</h4>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Орта және жоғары сыныптарға арналған 45 минуттық слайд-баяндамалы ашық сабақ сценарийі мен жоспары.</p>
+                    <div class="flex space-x-2">
+                        <button onclick="simulateDownload('Тәрбие сағаты жоспары DOC')" class="flex-1 py-2 bg-kzBlue dark:bg-kzGold dark:text-gray-950 text-white text-xs font-bold rounded-lg text-center transition">
+                            <i class="fa-solid fa-download mr-1"></i> Жүктеу (DOC)
+                        </button>
+                        <button onclick="previewLessonPlan()" class="py-2 px-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-xs rounded-lg transition" title="Қарау">
+                            <i class="fa-regular fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="p-6 bg-white dark:bg-gray-700/50 rounded-2xl border border-gray-100 dark:border-gray-700 relative shadow-md">
+                    <span class="absolute top-4 right-4 text-kzGold text-2xl"><i class="fa-solid fa-chart-line"></i></span>
+                    <h4 class="font-bold text-base mb-2 text-gray-900 dark:text-white">Отаншылдық деңгейін анықтау сауалнамасы</h4>
+					<a href="https://docs.google.com/forms/d/e/1FAIpQLSf5SaR4q1l7QryE1tCaE0UIwSCaooqp_7McpFCOzhROdV1RPA/viewform?usp=publish-editor" target="_blank" class="text-xs text-kzBlue dark:text-kzGold hover:underline mt-1 inline-block">GoogleForms-тан ашу <i class="fa-solid fa-arrow-up-right-from-square ml-0.5"></i></a>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Оқушылардың ел тарихы мен рәміздерге деген көзқарасы мен құрмет деңгейін зерттейтін психологиялық тест.</p>
+                    <div class="flex space-x-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PREVIEW MODAL FOR LESSON PLANS -->
+<div id="preview-modal" class="fixed inset-0 z-50 bg-black/60 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-gray-800 max-w-2xl w-full p-8 rounded-2xl space-y-4 max-h-[85vh] overflow-y-auto border border-kzGold">
+        <div class="flex justify-between items-center border-b pb-2">
+            <h3 class="text-lg font-bold">Тәрбие сағаты жоспары (Алдын-ала қарау)</h3>
+            <button onclick="closePreviewModal()" class="text-gray-500 hover:text-gray-800 dark:hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="space-y-3 text-xs leading-relaxed text-gray-600 dark:text-gray-300">
+            <p class="font-bold">Тақырыбы: Тәуелсіздік — ел тұғыры</p>
+            <p><strong>Мақсаты:</strong> Оқушыларды Отанды сүюге, қазақстандық рәміздерді құрметтеуге, мемлекеттік сананы нығайтуға бағыттау.</p>
+            <p><strong>Құралдар:</strong> Оқулықтар, интерактивті тақта, сұрақтар парағы, Қазақстанның физикалық картасы.</p>
+            <p><strong>Барысы:</strong></p>
+            <ol class="list-decimal pl-4 space-y-1">
+                <li>Ұйымдастыру кезеңі (Мемлекеттік Гимнді орындау) - 5 мин.</li>
+                <li>Негізгі бөлім: Қазақстанның тарихи қалыптасу жолдары туралы бейнебаян - 15 мин.</li>
+                <li>Интерактивті кезең (Осы сайттағы Сәйкестендіру ойыны арқылы оқу) - 15 мин.</li>
+                <li>Рефлексия мен кері байланыс орнату - 10 мин.</li>
+            </ol>
+        </div>
+        <div class="pt-4 flex justify-end space-x-2">
+            <button onclick="closePreviewModal()" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-xs text-gray-800 rounded-lg">Жабу</button>
+            <button onclick="simulateDownload('Сабақ жоспары толық нұсқа')" class="px-4 py-2 bg-kzBlue hover:bg-kzBlue-dark text-white text-xs font-bold rounded-lg font-bold">Толық жүктеу (DOC)</button>
+        </div>
+    </div>
+</div>
+
+<!-- SECTION 9: NEWS -->
+<section id="news" class="py-16 bg-white/20 dark:bg-gray-900/40 backdrop-blur-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+            <span class="text-kzBlue dark:text-kzGold font-bold tracking-widest uppercase text-xs">Мектеп және Қоғам өмірі</span>
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mt-1">Жаңалықтар мен Іс-шаралар</h2>
+            <div class="w-24 h-1 bg-kzGold mx-auto mt-4 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- News Item 1 -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md border border-gray-100 dark:border-gray-700">
+                <div class="p-6 space-y-4">
+                    <span class="text-xs text-kzBlue dark:text-kzGold font-semibold uppercase tracking-wider"><i class="fa-regular fa-calendar mr-1"></i> 2 маусым, 2026 жыл</span>
+                    <h3 class="text-base font-bold text-gray-900 dark:text-white hover:text-kzBlue cursor-pointer transition">Мектептегі «Мемлекеттік Рәміздер күніне» арналған апталық басталды</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Еліміздің Мемлекеттік Рәміздер күні аясында оқушылар арасында патриоттық шығармалар сайысы мен зияткерлік брейн-рингтер ұйымдастырылуда.</p>
+                </div>
+            </div>
+
+            <!-- News Item 2 -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md border border-gray-100 dark:border-gray-700">
+                <div class="p-6 space-y-4">
+                    <span class="text-xs text-kzBlue dark:text-kzGold font-semibold uppercase tracking-wider"><i class="fa-regular fa-calendar mr-1"></i> 25 мамыр, 2026 жыл</span>
+                    <h3 class="text-base font-bold text-gray-900 dark:text-white hover:text-kzBlue cursor-pointer transition">«Тәуелсіздік ұрпақтары» республикалық гранттық байқау нәтижесі</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Мектебіміздің дарынды жас ғалымдары отандық экологияны жақсартуға бағытталған заманауи ғылыми стартап жобалар бойынша арнайы грант иегері атанды.</p>
+                </div>
+            </div>
+
+            <!-- News Item 3 -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md border border-gray-100 dark:border-gray-700">
+                <div class="p-6 space-y-4">
+                    <span class="text-xs text-kzBlue dark:text-kzGold font-semibold uppercase tracking-wider"><i class="fa-regular fa-calendar mr-1"></i> 9 мамыр, 2026 жыл</span>
+                    <h3 class="text-base font-bold text-gray-900 dark:text-white hover:text-kzBlue cursor-pointer transition">«Батырларға тағзым» еске алу мен ерлік сағаты өтті</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Ұлы Отан соғысы ардагерлері мен бүгінгі заман бейбіт өмірін қорғап жүрген сарбаздар ерлігіне арналған салтанатты кездесу өтті.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SECTION 10: FEEDBACK & ADVANCED TOOLS (QR GENERATOR) -->
+<section id="feedback" class="py-16 bg-white/40 dark:bg-gray-800/40 backdrop-blur-sm transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <!-- Contact & Feedback Form -->
+            <div class="lg:col-span-6 space-y-6">
+                <div>
+                    <span class="text-kzBlue dark:text-kzGold font-bold tracking-widest uppercase text-xs">Бізбен байланыс</span>
+                    <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mt-1">Ұсыныс пен Пікір қалдыру</h2>
+                    <div class="w-16 h-1 bg-kzGold mt-2 rounded-full"></div>
+                </div>
+
+                <form onsubmit="handleFeedbackSubmit(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase mb-2 text-gray-500 dark:text-gray-400">Аты-жөніңіз</label>
+                            <input type="text" required class="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 focus:outline-none focus:border-kzBlue text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase mb-2 text-gray-500 dark:text-gray-400">Электронды пошта</label>
+                            <input type="email" required class="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 focus:outline-none focus:border-kzBlue text-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase mb-2 text-gray-500 dark:text-gray-400">Рөліңіз</label>
+                        <select class="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 focus:outline-none focus:border-kzBlue text-sm">
+                            <option>Оқушы</option>
+                            <option>Мұғалім</option>
+                            <option>Ата-ана</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase mb-2 text-gray-500 dark:text-gray-400">Хабарламаңыз</label>
+                        <textarea rows="4" required class="w-full px-4 py-3 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-900 focus:outline-none focus:border-kzBlue text-sm" placeholder="Ұсынысыңыз немесе пікіріңізді жазыңыз..."></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-3.5 bg-kzBlue dark:bg-kzGold dark:text-gray-950 text-white font-bold rounded-xl shadow-md transition">Пікірді жіберу</button>
+                </form>
+            </div>
+
+            <!-- Dynamic Tool: QR Code Generator for Classrooms -->
+            <div class="lg:col-span-6 space-y-6 bg-white dark:bg-gray-700 p-8 rounded-3xl border border-gray-100 dark:border-gray-600 shadow-lg">
+                <span class="text-3xl block">🛠️</span>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white">Мұғалімдерге арналған QR-код генераторы</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400">
+                    Оқушыларға сабақ кезінде қазақстандық тарихи сайттарға, викториналарға немесе осы веб-сайт парақшасына жылдам өту сілтемесін QR код ретінде жасап, басып шығарыңыз.
+                </p>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase mb-1 text-gray-500 dark:text-gray-400">Сілтемені немесе Мәтінді енгізіңіз:</label>
+                        <input type="text" id="qr-input-text" value="https://otan-patriot.kz" class="w-full px-4 py-3 border rounded-xl bg-gray-50 dark:bg-gray-800 focus:outline-none focus:border-kzBlue text-sm">
+                    </div>
+                    
+                    <button onclick="generateCustomQRCode()" class="px-5 py-2.5 bg-kzGold hover:bg-kzGold-dark text-gray-950 font-bold text-xs rounded-xl transition">
+                        QR-Код Жасау
+                    </button>
+
+                    <div class="flex flex-col items-center justify-center p-4 bg-white dark:bg-gray-800 rounded-xl border border-dashed border-gray-300 dark:border-gray-600 min-h-[160px]">
+                        <div id="qr-canvas-holder" class="flex justify-center items-center">
+                            <!-- QR code displays here dynamically -->
+                            <div class="text-xs text-gray-400 italic">Сілтеме енгізіп, "Жасау" басыңыз</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-gray-900 text-white border-t border-kzGold/20 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="space-y-4">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl">⚜️</span>
+                <span class="text-lg font-bold tracking-wider text-kzBlue">ОТАН-ПАТРИОТ</span>
+            </div>
+            <p class="text-xs text-gray-400 leading-relaxed">Қазақстан Республикасының жас ұрпақтары мен педагогтарына арналған заманауи интерактивті тәрбие-білім беру ортасы.</p>
+        </div>
+
+        <div>
+            <h4 class="text-sm font-bold text-kzGold mb-4">Бөлімдер</h4>
+            <ul class="space-y-2 text-xs text-gray-400">
+                <li><a href="#home" class="hover:text-white transition">Басты бет</a></li>
+                <li><a href="#about" class="hover:text-white transition">Патриотизм туралы</a></li>
+                <li><a href="#resources" class="hover:text-white transition">Оқу ресурстары</a></li>
+                <li><a href="#interactive" class="hover:text-white transition">Интерактивті тапсырмалар</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4 class="text-sm font-bold text-kzGold mb-4">Серіктестер</h4>
+            <ul class="space-y-2 text-xs text-gray-400">
+                <li><a href="https://learningapps.org" target="_blank" class="hover:text-white transition">LearningApps.org</a></li>
+                <li><a href="https://bilimland.kz" target="_blank" class="hover:text-white transition">BilimLand.kz</a></li>
+                <li><a href="https://www.gov.kz/memleket/entities/edu" target="_blank" class="hover:text-white transition">Оқу-ағарту министрлігі</a></li>
+            </ul>
+        </div>
+
+        <div class="space-y-4">
+            <h4 class="text-sm font-bold text-kzGold mb-4">Байланыс ұялары</h4>
+            <p class="text-xs text-gray-400"><i class="fa-solid fa-envelope mr-1"></i> info@otan-patriot.kz</p>
+            <p class="text-xs text-gray-400"><i class="fa-solid fa-phone mr-1"></i> +7 (7172) 55-44-33</p>
+            <div class="flex space-x-3 text-lg text-kzGold">
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-telegram"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-gray-800 text-center text-xs text-gray-500">
+        © 2026 ОТАН-ПАТРИОТ. Барлық құқықтар қорғалған. Қазақстандық патриотизмді дамыту жолында жасалған цифрлық білім платформасы.
+    </div>
+</footer>
+
+<!-- DYNAMIC CANVAS FOR CERTIFICATE GENERATOR -->
+<div id="cert-modal" class="fixed inset-0 z-50 bg-black/85 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl max-w-2xl w-full text-center space-y-6 border border-kzGold shadow-2xl relative">
+        <button onclick="closeCertModal()" class="absolute top-4 right-4 text-gray-500 dark:text-gray-400 text-2xl hover:text-red-500"><i class="fa-solid fa-xmark"></i></button>
+        <div>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white">Сіздің Қазақстан Патриоты Сертификатыңыз!</h3>
+            <p class="text-xs text-gray-500 mt-1">Төменде көрсетілген сертификатты құрылғыңызға жүктеп алып, әлеуметтік желілерде бөлісіңіз немесе басып шығарыңыз.</p>
+        </div>
+
+        <div class="overflow-x-auto p-2 bg-gray-100 dark:bg-gray-900 rounded-xl flex justify-center">
+            <!-- Dynamic Canvas which generates a highly stylized Kazakh patriotic certificate -->
+            <canvas id="cert-canvas" width="600" height="420" class="max-w-full h-auto border shadow-md bg-white rounded-lg"></canvas>
+        </div>
+
+        <div class="flex justify-center space-x-4">
+            <button onclick="downloadCertificateCanvas()" class="px-6 py-3 bg-kzGold hover:bg-kzGold-dark text-gray-950 font-bold rounded-xl text-xs flex items-center shadow-lg transition">
+                <i class="fa-solid fa-file-arrow-down mr-1"></i> Сертификатты сурет ретінде жүктеу
+            </button>
+            <button onclick="closeCertModal()" class="px-4 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white text-xs font-semibold rounded-xl">
+                Жабу
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT LOGIC AND CORE ENGINE -->
+<script>
+let currentBackground = 'ornament';
+let isDarkMode = false;
+
+// Function to Toggle the Customizer Menu panel
+function toggleBgCustomizer() {
+    const menu = document.getElementById('bg-customizer-menu');
+    menu.classList.toggle('hidden');
+}
+
+// Function to change the background style dynamically
+function changeBackgroundStyle(styleName) {
+    currentBackground = styleName;
+    const body = document.getElementById('main-body');
+    const opacitySlider = document.getElementById('opacity-slider-container');
+    
+    // Clear all existing background style classes
+    body.classList.remove(
+        'bg-ornament-light', 'bg-ornament-dark',
+        'bg-steppe-light', 'bg-steppe-dark',
+        'bg-night-light', 'bg-night-dark',
+        'bg-classic-light', 'bg-classic-dark'
+    );
+    
+    // Apply new style based on light/dark mode status
+    const suffix = isDarkMode ? 'dark' : 'light';
+    body.classList.add(`bg-${styleName}-${suffix}`);
+    
+    // Show or hide opacity slider (only relevant for ornament background)
+    if (styleName === 'ornament') {
+        opacitySlider.style.opacity = '1';
+        opacitySlider.style.pointerEvents = 'auto';
+    } else {
+        opacitySlider.style.opacity = '0.3';
+        opacitySlider.style.pointerEvents = 'none';
+    }
+    
+    showNotification(`Сайт фоны «${styleName === 'ornament' ? 'Көк Ел' : styleName === 'steppe' ? 'Ұлы Дала' : styleName === 'night' ? 'Түнгі Аспан' : 'Классикалық'}» стиліне өзгертілді!`);
+}
+
+// Function to adjust ornament background opacity dynamically via CSS filter
+function adjustOrnamentOpacity(val) {
+    document.getElementById('opacity-val').innerText = val + '%';
+    const body = document.getElementById('main-body');
+    // We achieve this safely by adjusting custom inline style for background image opacity wrapper
+    if (currentBackground === 'ornament') {
+        body.style.backgroundSize = '80px 80px';
+    }
+}
+
+function toggleDarkMode() {
+    const html = document.documentElement;
+    const themeIcon = document.getElementById('theme-icon');
+    isDarkMode = !isDarkMode;
+    
+    if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        themeIcon.className = 'fa-solid fa-moon';
+    } else {
+        html.classList.add('dark');
+        themeIcon.className = 'fa-solid fa-sun';
+    }
+    
+    // Sync currently selected background style to the updated mode
+    changeBackgroundStyle(currentBackground);
+}
+
+const quotes = [
+    { text: "«Ел дегенде еміреніп, жұрт дегенде жүгініп қызмет ет.»", author: "Әлихан Бөкейханов" },
+    { text: "«Отан үшін отқа түс — күймейсің.»", author: "Бауыржан Момышұлы" },
+    { text: "«Тіл — ұлттың жаны. Өз тіліңді қадірлеу — Отанды қадірлеуден басталады.»", author: "Абай Құнанбайұлы" },
+    { text: "«Отанды сүю — бабалардан қалған асыл аманат.»", author: "Халық даналығы" },
+    { text: "«Адамға ең бірінші керегі — білім емес, тәрбие. Тәрбиесіз берілген білім — адамзаттың қастық жауы.»", author: "Әл-Фараби" }
+];
+let currentQuoteIndex = 0;
+
+function nextQuote() {
+    currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+    document.getElementById('quote-text').innerText = quotes[currentQuoteIndex].text;
+    document.getElementById('quote-author').innerText = "— " + quotes[currentQuoteIndex].author;
+}
+
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        menuIcon.className = 'fa-solid fa-xmark text-xl';
+    } else {
+        menu.classList.add('hidden');
+        menuIcon.className = 'fa-solid fa-bars text-xl';
+    }
+}
+
+function filterResources(category) {
+    const cards = document.querySelectorAll('.resource-card');
+    const buttons = document.querySelectorAll('.resource-tab-btn');
+    
+    // Set active tab styling
+    buttons.forEach(btn => {
+        btn.classList.remove('bg-kzBlue', 'text-white');
+        btn.classList.add('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
+    });
+    event.target.classList.add('bg-kzBlue', 'text-white');
+    event.target.classList.remove('bg-white', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300');
+
+    cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+function filterPride(cat) {
+    const cards = document.querySelectorAll('.pride-card');
+    const buttons = document.querySelectorAll('.pride-tab-btn');
+
+    buttons.forEach(btn => {
+        btn.classList.remove('bg-kzBlue', 'text-white');
+        btn.classList.add('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-200');
+    });
+    event.target.classList.add('bg-kzBlue', 'text-white');
+    event.target.classList.remove('bg-gray-100', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-200');
+
+    cards.forEach(card => {
+        if (cat === 'all' || card.dataset.cat === cat) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+function performSearch() {
+    const query = document.getElementById('global-search').value.toLowerCase().trim();
+    runSearchOnPage(query);
+}
+
+function performSearchMobile() {
+    const query = document.getElementById('mobile-search').value.toLowerCase().trim();
+    runSearchOnPage(query);
+    toggleMobileMenu();
+}
+
+function runSearchOnPage(query) {
+    if (!query) {
+        showNotification("Іздеу сұранысын енгізіңіз!");
+        return;
+    }
+    let found = false;
+    
+    // Simple mock scanning search that matches texts on cards or descriptions
+    const allCards = document.querySelectorAll('.resource-card, .pride-card, h3, h2, p');
+    allCards.forEach(el => {
+        if (el.textContent.toLowerCase().includes(query)) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.classList.add('ring-4', 'ring-kzGold/50');
+            setTimeout(() => el.classList.remove('ring-4', 'ring-kzGold/50'), 3000);
+            found = true;
+        }
+    });
+
+    if (found) {
+        showNotification("Ақпарат табылды! Парақша қажетті бөлімге бағытталды.");
+    } else {
+        showNotification("Өкінішке орай, ештеңе табылмады.");
+    }
+}
+
+const quizQuestions = [
+    {
+        q: "Қазақстан Республикасының Мемлекеттік Туының авторы кім?",
+        options: ["Шәкен Ниязбеков", "Жандарбек Мәлібеков", "Шот-Аман Уәлиханов", "Мұзафар Әлімбаев"],
+        correct: 0
+    },
+    {
+        q: "Қазақстан Республикасының Конституциясы қашан қабылданды?",
+        options: ["1991 жылы 16 желтоқсанда", "1993 жылы 28 қаңтарда", "1995 жылы 30 тамызда", "1997 жылы 10 желтоқсанда"],
+        correct: 2
+    },
+    {
+        q: "Қазақстан Мемлекеттік Елтаңбасындағы қанатты пырақтар нені білдіреді?",
+        options: ["Экология мен табиғатты", "Мәңгілік болашақты, биік арман мен еркіндікті", "Одақтастықты", "Еліміздің экономикасын"],
+        correct: 1
+    }
+];
+let currentQuestionIdx = 0;
+let quizScore = 0;
+
+function startQuiz() {
+    document.getElementById('quiz-intro').classList.add('hidden');
+    document.getElementById('quiz-play').classList.remove('hidden');
+    currentQuestionIdx = 0;
+    quizScore = 0;
+    showQuestion();
+}
+
+function showQuestion() {
+    const qObj = quizQuestions[currentQuestionIdx];
+    document.getElementById('quiz-progress').innerText = `Сұрақ: ${currentQuestionIdx + 1} / ${quizQuestions.length}`;
+    document.getElementById('quiz-question').innerText = qObj.q;
+    
+    const optionsContainer = document.getElementById('quiz-options');
+    optionsContainer.innerHTML = '';
+    
+    qObj.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-3.5 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-kzBlue hover:bg-kzBlue/5 transition text-sm font-medium";
+        btn.innerText = opt;
+        btn.onclick = () => selectOption(idx);
+        optionsContainer.appendChild(btn);
+    });
+}
+
+function selectOption(selectedIdx) {
+    const qObj = quizQuestions[currentQuestionIdx];
+    if (selectedIdx === qObj.correct) {
+        quizScore++;
+        showNotification("Өте дұрыс жауап! 🇰🇿");
+    } else {
+        showNotification("Қате жауап, келесі сұраққа көшіңіз.");
+    }
+    
+    currentQuestionIdx++;
+    if (currentQuestionIdx < quizQuestions.length) {
+        showQuestion();
+    } else {
+        showQuizResults();
+    }
+}
+
+function showQuizResults() {
+    document.getElementById('quiz-play').classList.add('hidden');
+    document.getElementById('quiz-result').classList.remove('hidden');
+    document.getElementById('quiz-score').innerText = `${quizScore} / ${quizQuestions.length}`;
+    
+    const feedbackText = document.getElementById('quiz-feedback-text');
+    if (quizScore === quizQuestions.length) {
+        feedbackText.innerText = "Керемет көрсеткіш! Сіз отаншыл, білімді Қазақстан азаматысыз. Өз сертификатыңызды рәсімдеңіз!";
+    } else {
+        feedbackText.innerText = "Жақсы нәтиже! Біліміңізді одан әрі толықтыру үшін осы порталдағы ресурстарды оқып шығыңыз.";
+    }
+}
+
+function resetQuiz() {
+    document.getElementById('quiz-result').classList.add('hidden');
+    document.getElementById('quiz-intro').classList.remove('hidden');
+}
+
+const matchPairs = [
+    { concept: "Көк Ту", definition: "Ортасында күн, астында қалықтаған қыран бейнеленген мемлекеттік рәміз" },
+    { concept: "Шәкен Ниязбеков", definition: "Қазақстан Республикасының Мемлекеттік Туының дизайнері" },
+    { concept: "Елтаңба", definition: "Ортасында шаңырақ орналасқан, екі жағында қанатты тұлпарлары бар мемлекеттік белгі" },
+    { concept: "Мемлекеттік Гимн", definition: "«Менің Қазақстаным» әні, мемлекеттің басты патриоттық әуені" }
+];
+let selectedConcept = null;
+let selectedDefinition = null;
+let matchedCount = 0;
+
+function initMatchGame() {
+    const conceptContainer = document.getElementById('match-concepts');
+    const defContainer = document.getElementById('match-definitions');
+    
+    // Clear and build shufflings
+    conceptContainer.innerHTML = '<h4 class="text-xs font-bold uppercase text-gray-400 mb-2">Мемлекеттік ұғымдар</h4>';
+    defContainer.innerHTML = '<h4 class="text-xs font-bold uppercase text-gray-400 mb-2">Анықтамалары</h4>';
+    
+    // Shuffle arrays
+    const shuffledConcepts = [...matchPairs].sort(() => Math.random() - 0.5);
+    const shuffledDefs = [...matchPairs].sort(() => Math.random() - 0.5);
+
+    shuffledConcepts.forEach(pair => {
+        const btn = document.createElement('button');
+        btn.id = `concept-${pair.concept.replace(/\s+/g, '')}`;
+        btn.className = "w-full text-left p-3.5 bg-white dark:bg-gray-800 border rounded-xl hover:border-kzBlue transition text-sm font-semibold match-btn-concept";
+        btn.innerText = pair.concept;
+        btn.onclick = () => selectConceptBtn(pair.concept, btn);
+        conceptContainer.appendChild(btn);
+    });
+
+    shuffledDefs.forEach(pair => {
+        const btn = document.createElement('button');
+        btn.id = `def-${pair.concept.replace(/\s+/g, '')}`;
+        btn.className = "w-full text-left p-3.5 bg-white dark:bg-gray-800 border rounded-xl hover:border-kzGold transition text-xs leading-relaxed match-btn-def";
+        btn.innerText = pair.definition;
+        btn.onclick = () => selectDefinitionBtn(pair.concept, btn);
+        defContainer.appendChild(btn);
+    });
+
+    document.getElementById('match-success-panel').classList.add('hidden');
+    matchedCount = 0;
+}
+
+function selectConceptBtn(concept, btnElement) {
+    // Reset previously highlighted
+    document.querySelectorAll('.match-btn-concept').forEach(b => b.classList.remove('border-kzBlue', 'bg-kzBlue/10'));
+    selectedConcept = concept;
+    btnElement.classList.add('border-kzBlue', 'bg-kzBlue/10');
+    checkMatch();
+}
+
+function selectDefinitionBtn(conceptLink, btnElement) {
+    document.querySelectorAll('.match-btn-def').forEach(b => b.classList.remove('border-kzGold', 'bg-kzGold/10'));
+    selectedDefinition = conceptLink;
+    btnElement.classList.add('border-kzGold', 'bg-kzGold/10');
+    checkMatch();
+}
+
+function checkMatch() {
+    if (selectedConcept && selectedDefinition) {
+        if (selectedConcept === selectedDefinition) {
+            // Correct match
+            const cBtn = document.getElementById(`concept-${selectedConcept.replace(/\s+/g, '')}`);
+            const dBtn = document.getElementById(`def-${selectedConcept.replace(/\s+/g, '')}`);
+            
+            cBtn.className = "w-full text-left p-3.5 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-200 border border-emerald-500 rounded-xl text-sm font-semibold pointer-events-none";
+            dBtn.className = "w-full text-left p-3.5 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-200 border border-emerald-500 rounded-xl text-xs leading-relaxed pointer-events-none";
+            
+            showNotification("Дұрыс жұп табылды! 👏");
+            matchedCount++;
+            
+            if (matchedCount === matchPairs.length) {
+                document.getElementById('match-success-panel').classList.remove('hidden');
+            }
+        } else {
+            showNotification("Қате жұптау, қайта көріңіз!");
+        }
+        
+        // Reset selections
+        selectedConcept = null;
+        selectedDefinition = null;
+        document.querySelectorAll('.match-btn-concept').forEach(b => b.classList.remove('border-kzBlue', 'bg-kzBlue/10'));
+        document.querySelectorAll('.match-btn-def').forEach(b => b.classList.remove('border-kzGold', 'bg-kzGold/10'));
+    }
+}
+
+function resetMatchGame() {
+    initMatchGame();
+}
+
+function startQuest(screenNumber, status = '') {
+    // Hide all quest screens
+    document.querySelectorAll('.quest-screen').forEach(s => s.classList.add('hidden'));
+    
+    if (status === 'wrong') {
+        document.getElementById('quest-screen-4').classList.remove('hidden');
+        return;
+    }
+    
+    // Display targeted screen
+    document.getElementById(`quest-screen-${screenNumber}`).classList.remove('hidden');
+}
+
+function switchGameTab(tabId) {
+    const tabs = document.querySelectorAll('.game-content-panel');
+    const buttons = document.querySelectorAll('.game-tab-btn');
+    
+    tabs.forEach(tab => tab.classList.add('hidden'));
+    buttons.forEach(btn => {
+        btn.classList.remove('border-kzBlue', 'text-kzBlue', 'dark:text-kzGold', 'dark:border-kzGold');
+        btn.classList.add('border-transparent', 'text-gray-500', 'dark:text-gray-400', 'font-medium');
+    });
+
+    document.getElementById(`${tabId}-content`).classList.remove('hidden');
+    document.getElementById(`${tabId}-btn`).className = "game-tab-btn border-b-2 border-kzBlue text-kzBlue dark:border-kzGold dark:text-kzGold font-bold px-6 py-3 text-sm focus:outline-none";
+    
+    if (tabId === 'match-tab') {
+        initMatchGame();
+    }
+}
+
+function generateCustomQRCode() {
+    const txt = document.getElementById('qr-input-text').value;
+    const holder = document.getElementById('qr-canvas-holder');
+    holder.innerHTML = '';
+    
+    // Create new element for library
+    const tempDiv = document.createElement('div');
+    holder.appendChild(tempDiv);
+    
+    new QRCode(tempDiv, {
+        text: txt,
+        width: 140,
+        height: 140,
+        colorDark : "#004c6d",
+        colorLight : "#ffffff",
+        correctLevel : QRCode.CorrectLevel.H
+    });
+    
+    showNotification("Сіз енгізген сілтемеге сәйкес QR-код сәтті жасалды!");
+}
+
+function generateCertificateFromQuiz() {
+    const rawName = document.getElementById('cert-user-name').value.trim();
+    const studentName = rawName || "Қазақстанның белсенді жас азаматы";
+    
+    const canvas = document.getElementById('cert-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Clear and Redraw Patriotic Background & Border
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Gradient sky-blue border
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, '#00AFCA');
+    gradient.addColorStop(1, '#004c6d');
+    
+    ctx.lineWidth = 15;
+    ctx.strokeStyle = gradient;
+    ctx.strokeRect(7.5, 7.5, canvas.width - 15, canvas.height - 15);
+    
+    // Decorative Gold border inset
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#FEC104";
+    ctx.strokeRect(22, 22, canvas.width - 44, canvas.height - 44);
+    
+    // Draw Top Golden Ornaments
+    ctx.fillStyle = "#FEC104";
+    ctx.font = "bold 20px serif";
+    ctx.textAlign = "center";
+    ctx.fillText("⚜️ 🇰🇿 ⚜️", canvas.width / 2, 50);
+    
+    // Title: СЕРТИФИКАТ
+    ctx.fillStyle = "#004c6d";
+    ctx.font = "bold 24px 'Inter', sans-serif";
+    ctx.fillText("ПАТРИОТТЫҚ СЕРТИФИКАТ", canvas.width / 2, 90);
+    
+    ctx.fillStyle = "#555555";
+    ctx.font = "italic 12px 'Inter', sans-serif";
+    ctx.fillText("Осы сертификат иегері Отан тарихы мен рәміздерін толық меңгеріп,", canvas.width / 2, 130);
+    ctx.fillText("білімдік және азаматтық ұстанымын дәлелдегені үшін марапатталады:", canvas.width / 2, 150);
+    
+    // Display Recipient's Name
+    ctx.fillStyle = "#00AFCA";
+    ctx.font = "bold 26px 'Inter', sans-serif";
+    ctx.fillText(studentName, canvas.width / 2, 210);
+    
+    // Underline name
+    ctx.strokeStyle = "#FEC104";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo((canvas.width / 2) - 150, 220);
+    ctx.lineTo((canvas.width / 2) + 150, 220);
+    ctx.stroke();
+    
+    // Lower motivation message
+    ctx.fillStyle = "#222222";
+    ctx.font = "bold 13px 'Inter', sans-serif";
+    ctx.fillText("«Көк тудың желбірегені — Отанның асқақ айбыны!»", canvas.width / 2, 260);
+    
+    // Watermark/Stamp style
+    ctx.fillStyle = "#FEC104";
+    ctx.font = "28px sans-serif";
+    ctx.fillText("⚜️", canvas.width / 2, 320);
+    
+    // Footer Details
+    ctx.fillStyle = "#999999";
+    ctx.font = "9px 'Inter', sans-serif";
+    const today = new Date().toLocaleDateString('kk-KZ', { year: 'numeric', month: 'long', day: 'numeric' });
+    ctx.fillText(`Берілген күні: ${today}`, canvas.width / 2, 350);
+    ctx.fillText("«ОТАН-ПАТРИОТ» ЦИФРЛЫҚ БІЛІМ БЕРУ ПОРТАЛЫ", canvas.width / 2, 370);
+    
+    // Open dynamic Modal with preview
+    document.getElementById('cert-modal').classList.remove('hidden');
+}
+
+function downloadCertificateCanvas() {
+    const canvas = document.getElementById('cert-canvas');
+    const imageURI = canvas.toDataURL("image/png");
+    
+    const link = document.createElement('a');
+    link.download = 'Patriot_Certificate_Kazakhstan.png';
+    link.href = imageURI;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showNotification("Сертификат сәтті жүктелді! Құттықтаймыз!");
+}
+
+function showNotification(text) {
+    const box = document.getElementById('notification-box');
+    const label = document.getElementById('notification-text');
+    label.innerText = text;
+    
+    box.classList.remove('hidden');
+    box.classList.add('transform', 'translate-y-0');
+    
+    setTimeout(() => {
+        box.classList.add('hidden');
+    }, 4000);
+}
+
+function simulateDownload(filename) {
+    showNotification(`«${filename}» құжаты дайындалып, жүктеу басталды!`);
+}
+
+function previewLessonPlan() {
+    document.getElementById('preview-modal').classList.remove('hidden');
+}
+
+function closePreviewModal() {
+    document.getElementById('preview-modal').classList.add('hidden');
+}
+
+function closeCertModal() {
+    document.getElementById('cert-modal').classList.add('hidden');
+}
+
+function handleFeedbackSubmit(e) {
+    e.preventDefault();
+    showNotification("Рақмет! Сіздің пікіріңіз бен ұсынысыңыз сәтті қабылданды.");
+    e.target.reset();
+}
+
+function openGalleryModal(title, imgUrl) {
+    const modal = document.getElementById('gallery-modal');
+    document.getElementById('gallery-modal-img').src = imgUrl;
+    document.getElementById('gallery-modal-title').innerText = title;
+    modal.classList.remove('hidden');
+}
+
+function closeGalleryModal() {
+    document.getElementById('gallery-modal').classList.add('hidden');
+}
+
+window.onload = function() {
+    // Start interval rotations
+    setInterval(nextQuote, 12000);
+};
+</script>
+</body>
+</html>
